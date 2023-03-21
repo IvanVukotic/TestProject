@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="flightapiresponse" format="json">
+      <types:shape format="weave" example="examples/flightapiresponse.json"><![CDATA[%dw 2.0
+
+type flightapiresponse = {|
+  ID: Number {"typeId": "int"}, 
+  code: String, 
+  price: Number {"typeId": "int"}, 
+  departureDate: String, 
+  origin: String, 
+  destination: String, 
+  emptySeats: Number {"typeId": "int"}, 
+  plane: {|
+    "type": String, 
+    totalSeats: Number {"typeId": "int"}
+  |}
+|} {"example": "{\\\"ID\\\":10,\\\"code\\\":\\\"eefd4511\\\",\\\"price\\\":900,\\\"departureDate\\\":\\\"2016-01-15T00:00:00\\\",\\\"origin\\\":\\\"MUA\\\",\\\"destination\\\":\\\"LAX\\\",\\\"emptySeats\\\":100,\\\"plane\\\":{\\\"type\\\":\\\"Boeing 777\\\",\\\"totalSeats\\\":300}}"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="flightcalc" format="json">
+      <types:shape format="weave" example="examples/finalresponse.json"><![CDATA[%dw 2.0
+
+type flightcalc = {|
+  destination: String, 
+  planes: Array<{|    "type": String,     pricePerSeat: String  |}>
+|} {"example": "{\\\"destination\\\":\\\"LAX\\\",\\\"planes\\\":[{\\\"type\\\":\\\"Boeing 777\\\",\\\"pricePerSeat\\\":\\\"180000\$\\\"}]}"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="soap" format="java">
+      <types:shape format="raml"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="soapresponse" format="xml">
+      <types:example format="xml" element="flight" location="examples/xmlexample.xml"/>
+    </types:type>
+  </types:catalog>
+  <types:enrichment select="#a8016041-1418-45f6-8621-ae5b45c8dab1">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="soapresponse"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#6661564a-20e8-45bb-a82d-63747270bbb0">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="flightapiresponse"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
+</types:mule>

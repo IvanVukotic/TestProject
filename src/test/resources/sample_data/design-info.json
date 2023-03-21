@@ -1,0 +1,10 @@
+{
+  "sampleData": {
+    "a8016041-1418-45f6-8621-ae5b45c8dab1": {
+      "payload": "sample_data/flight.xml"
+    },
+    "6661564a-20e8-45bb-a82d-63747270bbb0": {
+      "payload": "sample_data/json.json"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+http:
+  host: "localhost"
+  port: "8081"
+  basepath: "flight_calculations"
+requestprocess:
+  host: "localhost"
+  port: "8091"
+  basepath: "processapi"
+  
+  

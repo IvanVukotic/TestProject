@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?><flight>
+    <ID>10</ID>
+    <code>eefd4511</code>
+    <price>900</price>
+    <departureDate>2016-01-15T00:00:00</departureDate>
+    <origin>MUA</origin>
+    <destination>LAX</destination>
+    <emptySeats>100</emptySeats>
+    <plane>
+        <type>Boeing 777</type>
+        <totalSeats>300</totalSeats>
+    </plane>
+</flight>

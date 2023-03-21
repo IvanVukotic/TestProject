@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:validation="http://www.mulesoft.org/schema/mule/validation" xmlns:wsc="http://www.mulesoft.org/schema/mule/wsc"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/wsc http://www.mulesoft.org/schema/mule/wsc/current/mule-wsc.xsd
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd">
+	<flow name="flightproject-expapi" doc:id="316fa0ac-dace-4c4d-8887-2c819517ddcf" >
+		<http:listener doc:name="Listener" doc:id="7931bb31-a868-4dbc-9d1b-b6900d050fc3" config-ref="HTTP_Listener_config" path="/${http.basepath}"/>
+		<set-variable value='#[attributes.queryParams.dest default "LAX"]' doc:name="DestinationasAvariable" doc:id="f707c125-165e-4251-8a09-138df51495b6" variableName="TakeDestination" />
+		<validation:is-true doc:name="IsTrueDestination" doc:id="5ed4e10a-05d4-4e49-8815-17310468bfd6" expression="#[['SFO','LAX','CLE'] contains vars.TakeDestination]" message="#['Invalid destination' ++ ' ' ++ (vars.TakeDestination default' ') ++ &quot; ,please enter one of these SFO,LAX,CLE as query parameter&quot;]" />
+		<http:request method="GET" doc:name="DataFrom FlightsProcessApi" doc:id="d0187f9a-17e8-4f0b-88cd-402b93271d75" config-ref="HTTP_Request_configuration_process" path="/${requestprocess.basepath}">
+			<http:query-params ><![CDATA[#[output application/java
+---
+{
+	destination : vars.TakeDestination
+}]]]></http:query-params>
+		</http:request>
+		<logger level="INFO" doc:name="Logger" doc:id="1551f48e-3500-44db-b433-c7256ade601e" message="#[payload]"/>
+	</flow>
+</mule>

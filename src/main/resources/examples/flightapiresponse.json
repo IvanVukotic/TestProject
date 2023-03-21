@@ -1,0 +1,13 @@
+{
+"ID": 10,
+"code": "eefd4511",
+"price": 900,
+"departureDate": "2016-01-15T00:00:00",
+"origin": "MUA",
+"destination": "LAX",
+"emptySeats": 100,
+"plane": {
+"type": "Boeing 777",
+"totalSeats": 300
+}
+}

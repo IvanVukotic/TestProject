@@ -1,0 +1,9 @@
+{
+"destination": "LAX",
+"planes": [
+{
+"type": "Boeing 777",
+"pricePerSeat": "180000$"
+}
+]
+}
